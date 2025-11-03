@@ -4,11 +4,10 @@ TBD
 
 ### Tech stack
 - PostgreSQL
-- Flask (Python Backend)
-- React (Optional Front end)
+- SQL Alchemy (Python Backend, ORM)
+- Python Shiny (Optional Front end)
 ### Additional Tools
-- SQLAlchemy ORM in Flask for querying
-- Material UI for UI components
+- DBeaver for database UI
 ### File Structure 
 - TBD
 
