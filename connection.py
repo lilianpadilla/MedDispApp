@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 import os
 
@@ -13,6 +14,8 @@ database = os.getenv("DB_NAME")
 
 url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
 engine = create_engine(url)
+SessionLocal = sessionmaker(bind=engine)
+Base = declarative_base()
 
 try:
     with engine.connect() as conn:

@@ -1,7 +1,8 @@
 # app.py
 from flask import Flask, jsonify, request
 from sqlalchemy import text
-from connection import engine  # import the shared database connection
+from connection import engine, SessionLocal, Base  # import the shared database connection
+from models import User
 
 app = Flask(__name__)
 
@@ -11,11 +12,10 @@ def home():
 
 @app.route("/users", methods=["GET"])
 def get_users():
-    """Retrieve all users from PostgreSQL"""
-    with engine.connect() as conn:
-        result = conn.execute(text("SELECT * FROM users"))
-        rows = [dict(r) for r in result.mappings()]
-    return jsonify(rows)
+    session = SessionLocal()
+    users = session.query(User).all()
+    session.close()
+    return jsonify([{"id": u.id, "name": u.name, "age": u.age} for u in users])
 
 if __name__ == "__main__":
     app.run(debug=True)
