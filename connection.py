@@ -1,0 +1,24 @@
+from sqlalchemy import create_engine, text
+from dotenv import load_dotenv
+import os
+
+# Load .env
+load_dotenv()
+
+user = os.getenv("DB_USER")
+password = os.getenv("DB_PASSWORD")
+host = os.getenv("DB_HOST")
+port = os.getenv("DB_PORT")
+database = os.getenv("DB_NAME")
+
+url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
+engine = create_engine(url)
+
+try:
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM users;"))
+        for row in result:
+            print(row)
+    print("Connected successfully to testdb!")
+except Exception as e:
+    print("Connection failed:", e)
