@@ -18,8 +18,10 @@ SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
 try:
-    with engine.connect() as conn:
-        result = conn.execute(text("SELECT * FROM users;"))
+    with engine.connect() as connection:
+        result = connection.execute(text("SELECT * FROM patient;"))
+        rows = result.mappings().all()
+        sample = rows[0]
         for row in result:
             print(row)
     print("Connected successfully to testdb!")
