@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Medication Schedule</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label { display: inline-block; width: 120px; margin-top: 5px; }
+    input, select { margin-top: 5px; }
+    .drug-row { margin-bottom: 10px; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+    .error { color: red; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h1>Medication Schedule</h1>
+
+  <form method="POST" action="/schedule">
+    <div>
+      <label for="patient_id">Patient ID:</label>
+      <input type="text" id="patient_id" name="patient_id" required>
+    </div>
+
+    <div>
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date">
+    </div>
+
+    <div>
+      <label for="window_days">Days:</label>
+      <select id="window_days" name="window_days">
+        <option value="1">1 day</option>
+        <option value="2">2 days</option>
+        <option value="3">3 days</option>
+        <option value="4">4 days</option>
+        <option value="5">5 days</option>
+        <option value="6">6 days</option>
+        <option value="7">7 days</option>
+      </select>
+    </div>
+
+    <h3>Drugs to Schedule</h3>
+    <p>Enter drugs needed to take</p>
+
+    <div id="drug-rows">
+      <div class="drug-row">
+        <strong>Drug</strong><br>
+        <label>Drug ID:</label>
+        <input type="text" name="drug_id[]">
+        <label>Times per day:</label>
+        <input type="number" name="times_per_day[]" min="1" max="12">
+      </div>
+    </div>
+
+    <button type="button" onclick="addDrugRow()" style="margin-top: 10px;">
+      + Add Another Drug
+    </button>
+
+    <br><br>
+    <button type="submit">Preview Schedule</button>
+  </form>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if warnings %}
+    <ul>
+      {% for w in warnings %}
+        <li style="color: orange;">{{ w }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if schedule %}
+    <h2>Generated Schedule</h2>
+    <table>
+      <tr>
+        <th>Time</th>
+        <th>Drug ID</th>
+        <th>Quantity</th>
+      </tr>
+      {% for entry in schedule %}
+        <tr>
+          <td>{{ entry.time }}</td>
+          <td>{{ entry.drug_id }}</td>
+          <td>{{ entry.quantity }}</td> <!-- always 1 -->
+        </tr>
+      {% endfor %}
+    </table>
+  {% elif schedule is not none %}
+    <p>No schedule could be generated given the constraints.</p>
+  {% endif %}
+
+  <script>
+    function addDrugRow() {
+      const container = document.getElementById("drug-rows");
+      const div = document.createElement("div");
+      div.className = "drug-row";
+      div.innerHTML = `
+        <strong>Drug</strong><br>
+        <label>Drug ID:</label>
+        <input type="text" name="drug_id[]">
+        <label>Times per day:</label>
+        <input type="number" name="times_per_day[]" min="1" max="12">
+      `;
+      container.appendChild(div);
+    }
+  </script>
+
+</body>
+</html>
