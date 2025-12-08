@@ -24,6 +24,6 @@ try:
         sample = rows[0]
         for row in result:
             print(row)
-    print("Connected successfully to testdb!")
+    print("Connected successfully to db!")
 except Exception as e:
     print("Connection failed:", e)

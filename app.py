@@ -8,9 +8,9 @@ from data.scheduler import build_schedule_for_patient
 
 app = Flask(__name__)
 
-# Guardrails
-MAX_TIMES_PER_DAY = 24     # reasonable max
-MAX_WINDOW_DAYS = 7        # 1–7 days
+
+MAX_TIMES_PER_DAY = 24 # reasonable max
+MAX_WINDOW_DAYS = 7 # 1–7 days
 
 
 @app.route("/")
@@ -24,7 +24,7 @@ def get_drugs():
     session = SessionLocal()
     drugs = session.query(V2Drug).all()
     session.close()
-
+    
     return jsonify([
         {
             "drug_id": d.drug_id,
@@ -125,7 +125,7 @@ def schedule_page():
                     f"Only {actual_doses} of {expected_doses} requested doses could be "
                     "scheduled without violating safety constraints."
                 )
-
+            raw_schedule.sort(key=lambda e: e["time"])
             schedule = [
                 {
                     "drug_id": entry["drug_id"],
@@ -136,7 +136,7 @@ def schedule_page():
             ]
 
         except Exception as e:
-            error = f"Something went wrong: {e}"
+            error = f"Error: {e}"
 
     return render_template("schedule.html", schedule=schedule, error=error, warnings=warnings)
 
