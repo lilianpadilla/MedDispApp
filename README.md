@@ -7,5 +7,6 @@ Hospital Operations Database
 - Jupyter Notebook (Basic Functions)
 ### Additional Tools
 - DBeaver for database UI
-
+### NOTE
+- ipynb file is not part of the application, it was developed separately but attached to repo for basic function submission
 
