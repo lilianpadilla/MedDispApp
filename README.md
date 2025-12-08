@@ -1,13 +1,11 @@
 # MedDispApp
 ## Description
-TBD
-
+Hospital Operations Database
 ### Tech stack
 - PostgreSQL
 - SQL Alchemy (Python Backend, ORM)
-- Python Shiny (Optional Front end)
+- Jupyter Notebook (Basic Functions)
 ### Additional Tools
 - DBeaver for database UI
-### File Structure 
-- TBD
+
 
