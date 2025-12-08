@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, jsonify, request, render_template
 from datetime import datetime, date, time, timedelta
 
